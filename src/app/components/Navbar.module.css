@@ -1,0 +1,77 @@
+/* Nav layout with class-based styles to avoid server/client inline-style serialization mismatch */
+.navRoot {
+  background: var(--navbar-background);
+  color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  border-bottom: 1px solid var(--navbar-border);
+  width: 100%;
+  z-index: 10;
+  padding: 0.75rem 0;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+.navInner {
+  max-width: none;
+  margin: 0;
+  padding-left: clamp(0.5rem, 1.5vw, 1rem);
+  padding-right: clamp(0.5rem, 1.5vw, 1rem);
+  overflow-x: hidden;
+  overflow-y: visible;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.navInnerMobile {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.navRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 5.25rem;
+  margin-top: 0.15rem;
+  gap: 1rem;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.navRowMobile {
+  gap: 0.5rem;
+  height: 4.25rem;
+}
+
+.navLinksWrap {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+  flex-wrap: nowrap;
+  flex-shrink: 1;
+  min-width: 0;
+  position: relative;
+  max-width: none;
+}
+
+.navLinksWrapMobile {
+  gap: 0.5rem;
+  max-width: 30%;
+}
+
+.logoWrap {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.logoWrapHovered {
+  transform: scale(1.05);
+}
+
+.linkWrap {
+  flex-shrink: 0;
+}

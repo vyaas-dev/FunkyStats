@@ -1,0 +1,50 @@
+services:
+  cache:
+    build:
+      context: ./cache-server
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      TBA_API_KEY: ${TBA_API_KEY:?TBA_API_KEY is required}
+      CACHE_HOST: 0.0.0.0
+      CACHE_PORT: 8787
+      CACHE_DATA_DIR: /data
+      CACHE_YEARS: ${CACHE_YEARS:-2024,2025,2026}
+      REFRESH_ENABLED: ${REFRESH_ENABLED:-true}
+    volumes:
+      - cache-data:/data
+    expose:
+      - "8787"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8787/health')",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    environment:
+      TBA_API_KEY: ${TBA_API_KEY:?TBA_API_KEY is required}
+      FSM_CACHE_URL: http://cache:8787
+      ANALYTICS_SECRET: ${ANALYTICS_SECRET:-}
+    volumes:
+      - analytics-data:/app/data
+    depends_on:
+      cache:
+        condition: service_healthy
+
+volumes:
+  cache-data:
+  analytics-data:

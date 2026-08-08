@@ -1,0 +1,13 @@
+node_modules
+.next
+out
+.git
+.gitignore
+.env*
+data
+cache-server
+*.md
+.DS_Store
+coverage
+.vercel
+.netlify
