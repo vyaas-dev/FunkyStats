@@ -1,13 +1,23 @@
 FROM node:20-alpine AS deps
+RUN corepack enable
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
 FROM node:20-alpine AS builder
+RUN corepack enable
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+ARG TBA_API_KEY
+ARG FSM_CACHE_URL
+ENV TBA_API_KEY=$TBA_API_KEY
+ENV FSM_CACHE_URL=$FSM_CACHE_URL
 ENV NEXT_TELEMETRY_DISABLED=1
+# Coolify builders are often memory-constrained during next build
+ENV NODE_OPTIONS=--max-old-space-size=2048
+
 RUN yarn build
 
 FROM node:20-alpine AS runner

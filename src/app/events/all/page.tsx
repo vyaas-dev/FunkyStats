@@ -3,6 +3,8 @@ import { getEventTeams, getAttendingTeams } from "@/app/lib/fsm";
 import { get26Predictions } from "../../lib/26pred";
 import type { Event26Metric } from "../../lib/eventMetrics";
 
+export const dynamic = "force-dynamic";
+
 type TbaSimpleEvent = {
   key: string;
   name: string;
